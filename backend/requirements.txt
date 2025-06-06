@@ -1,0 +1,8 @@
+langchain
+openai
+groq
+python-dotenv
+fastapi
+uvicorn
+mcp-use
+motor
