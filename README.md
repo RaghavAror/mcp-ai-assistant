@@ -155,7 +155,7 @@ MONGODB_URI=your_mongodb_uri
 2. Run the FastAPI server.
 ```bash
 cd backend
-uvicorn main\:app --reload
+python -m uvicorn main:app --reload
 ```
 
 ### Frontend Setup
