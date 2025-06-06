@@ -23,7 +23,7 @@ An intelligent assistant built using **Model Context Protocol (MCP)** to orchest
 - Perform **multi-step reasoning and execution**.
 - Simulate a complete agent loop that thinks, plans, and acts using `calls` and `observations`.
 
-🔗 [Official Documentation](https://platform.openai.com/docs/assistants/tools/model-completion-protocol)
+🔗 [Official Documentation](https://platform.openai.com/docs/mcp)
 
 ---
 
