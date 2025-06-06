@@ -71,3 +71,115 @@ ai-assistant-mcp/
 └── database/
     ├── schema.sql
     └── seed_data.sql
+```
+---
+
+## Core Functionalities
+
+1. Agent Querying
+    - **Input a prompt in plain English.**
+    - **The agent reasons using LLM and invokes tools via MCP.**
+    - **Returns final output to the user.**
+
+2. Agent Execution Logic
+```bash
+# backend/services/agent_service.py
+from mcp_use import MCPClient, MCPAgent
+from langchain_openai import ChatOpenAI
+
+client = MCPClient.from_config_file("backend/mcp_config.json")
+llm = ChatOpenAI(model="gpt-4o")
+agent = MCPAgent(llm=llm, client=client, max_steps=30)
+result = await agent.run(query)
+```
+
+3. MCP Tool Config
+```bash
+# backend/mcp_config.json
+{
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"],
+      "env": {
+        "DISPLAY": ":1"
+      }
+    }
+  }
+}
+```
+
+4. Backend API Endpoint
+```bash
+# backend/main.py
+@app.post("/query")
+async def query_agent(request: Request):
+    data = await request.json()
+    query = data.get("query")
+    result = await run_agent(query)
+    return {"response": result}
+```
+5. Frontend API Call
+```bash
+// frontend/src/components/ChatUI.jsx
+const res = await fetch("http://localhost:8000/query", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ query }),
+});
+```
+---
+## Prerequisites
+
+- Python 3.8+
+- Node.js
+- MongoDB
+- OpenAI Authorization
+---
+
+
+## Getting Started
+
+### Configuration
+
+Ensure you have a `.env` file in your backend directory with the necessary environment variables:
+
+```plaintext
+OPENAI_API_KEY=your_openai_api_key
+MONGODB_URI=your_mongodb_uri
+```
+
+### Backend Setup
+
+1. Navigate to the backend directory and install dependencies.
+2. Run the FastAPI server.
+```bash
+cd backend
+uvicorn main\:app --reload
+```
+
+### Frontend Setup
+
+1. Navigate to the frontend directory and install dependencies.
+2. Start the development server.
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+### Running MCP Server
+
+To start the MCP server, use the following command:
+```bash
+npx @playwright/mcp@latest
+```
+---
+
+##  References
+GitHub for mcp-use:'https://github.com/mcptutorial/mcp-use/blob/main/'
+
+---
+
+
+
